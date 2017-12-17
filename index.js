@@ -1,29 +1,29 @@
 const marked = require('marked')
 const fs = require('fs')
 
-function getArgv() {
+function getArgv () {
   return require('yargs')
     .usage('Usage: $0 [-i filename] [-o filename]')
     .option('input', {
       alias: 'i',
       default: '-',
-      describe: 'input path. "-" indicates standard input',
+      describe: 'input path. "-" indicates standard input'
     })
     .option('output', {
       alias: 'o',
-      describe: 'output path. standard output when omitted',
+      describe: 'output path. standard output when omitted'
     }).argv
 }
 
-function getInput(argv) {
+function getInput (argv) {
   return argv.input === '-' ? process.stdin : fs.createReadStream(argv.input)
 }
 
-function getOutput(argv) {
+function getOutput (argv) {
   return argv.output ? fs.createWriteStream(argv.output) : process.stdout
 }
 
-function readInput(stream) {
+function readInput (stream) {
   return new Promise((resolve, reject) => {
     const chunks = []
     stream.on('data', chunk => chunks.push(chunk))
@@ -36,35 +36,39 @@ function readInput(stream) {
   })
 }
 
-function isRootMacro(text) {
+function isRootMacro (text) {
   return /^<<.+>>$/.test(text)
 }
 
-function isMacro(text) {
+function isMacro (text) {
   return /^<[^<][^>]*>$/.test(text)
 }
 
-function extractSubject(text) {
+function extractSubject (text) {
   return /^<([^<][^>]*)>$/.exec(text)[1]
 }
 
-function parseRootChunk(text) {
+function parseRootChunk (text) {
   const subjects = []
   const regex = /<([^<\n][^>\n]*)>/g
-  while ((match = regex.exec(text))) {
+  for (;;) {
+    const match = regex.exec(text)
+    if (!match) {
+      break
+    }
     subjects.push(match[1])
   }
   return subjects
 }
 
-function collectCode(tokens) {
+function collectCode (tokens) {
   const STATE_INIT = 0
   const STATE_IN_ROOT = 1
   const STATE_IN_MACRO = 2
 
   const chunks = {
     root: [],
-    codeTable: {},
+    codeTable: {}
   }
 
   let state = STATE_INIT
@@ -93,7 +97,7 @@ function collectCode(tokens) {
   return chunks
 }
 
-function concatCode(chunks) {
+function concatCode (chunks) {
   const subjects = parseRootChunk(chunks.root.join('\n'))
 
   return subjects.reduce((acc, subject) => {
@@ -102,17 +106,17 @@ function concatCode(chunks) {
   }, '')
 }
 
-function compile(text) {
+function compile (text) {
   const tokens = marked.lexer(text)
   const chunks = collectCode(tokens)
   return concatCode(chunks)
 }
 
-async function main() {
+async function main () {
   const argv = getArgv()
 
   const input = getInput(argv)
-  const text = await readInput(getInput(argv))
+  const text = await readInput(input)
 
   const code = compile(text)
 

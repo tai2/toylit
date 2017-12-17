@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "standard '**/*.js'",
     "prettier": "prettier --single-quote --trailing-comma=es5 --no-semi --write '**/*.js'"
   },
   "author": "tai2",
@@ -14,6 +15,7 @@
     "yargs": "^10.0.3"
   },
   "devDependencies": {
-    "prettier": "^1.9.2"
+    "prettier": "^1.9.2",
+    "standard": "^10.0.3"
   }
 }
