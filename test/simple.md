@@ -1,19 +1,19 @@
-# サンプル文書
+# Sample document
 
-## <<構成>>
+## <<Structure>>
 
 ```javascript
-<要素1>
-<要素2>
+<Element 1>
+<Element 2>
 ```
 
-## <要素1>
+## <Element 1>
 
 ```javascript
 console.log('elem 1')
 ```
 
-## <要素2>
+## <Element 2>
 
 ```javascript
 console.log('elem 2')
