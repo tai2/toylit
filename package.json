@@ -1,0 +1,15 @@
+{
+  "name": "toylit",
+  "version": "1.0.0",
+  "description": "markdown-based literate programing processor",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "tai2",
+  "license": "MIT",
+  "dependencies": {
+    "markd": "^1.2.0",
+    "yargs": "^10.0.3"
+  }
+}
