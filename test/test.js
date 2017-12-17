@@ -17,7 +17,8 @@ test('comile function results expected code(complex.md)', t => {
   const code = compile(text)
   const expected = `console.log('elem 1')
 console.log('elem 2')
-console.log('elem 3')
+console.log('elem 3-1')
+console.log('elem 3-2')
 `
   t.is(code, expected);
 });

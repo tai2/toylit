@@ -55,7 +55,17 @@ console.log('elem 2')
 なんらかのテキスト
 
 ```javascript
-console.log('elem 3')
+console.log('elem 3-1')
+```
+
+なんらかのテキスト
+
+### <要素3>
+
+なんらかのテキスト
+
+```javascript
+console.log('elem 3-2')
 ```
 
 なんらかのテキスト
