@@ -4,12 +4,16 @@
   "description": "markdown-based literate programing processor",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prettier": "prettier --single-quote --trailing-comma=es5 --no-semi --write '**/*.js'"
   },
   "author": "tai2",
   "license": "MIT",
   "dependencies": {
     "markd": "^1.2.0",
     "yargs": "^10.0.3"
+  },
+  "devDependencies": {
+    "prettier": "^1.9.2"
   }
 }
