@@ -59,6 +59,9 @@ function concatCode (chunks) {
   const subjects = parseRootChunk(chunks.root.join('\n'))
 
   return subjects.reduce((acc, subject) => {
+    if (!chunks.codeTable[subject]) {
+      throw `Undefined subject: ${subject}`
+    }
     const code = chunks.codeTable[subject].join('\n')
     return acc + code + '\n'
   }, '')
