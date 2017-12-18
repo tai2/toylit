@@ -6,7 +6,7 @@
   "scripts": {
     "test": "ava",
     "lint": "standard '**/*.js'",
-    "prettier": "prettier --single-quote --trailing-comma=es5 --no-semi --write '**/*.js'"
+    "prettier": "prettier --single-quote --trailing-comma=es5 --no-semi --write '**/*.js' && npm run lint -- --fix"
   },
   "author": "tai2",
   "license": "MIT",

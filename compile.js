@@ -1,28 +1,22 @@
 const marked = require('marked')
 
 function isRootMacro (text) {
-  return /^<<.+>>$/.test(text)
+  return /^&\*.+$/.test(text)
 }
 
 function isMacro (text) {
-  return /^<[^<][^>]*>$/.test(text)
+  return /^&[^*]+$/.test(text)
 }
 
 function extractSubject (text) {
-  return /^<([^<][^>]*)>$/.exec(text)[1]
+  return /^&([^*]+)$/.exec(text)[1].trim()
 }
 
 function parseRootChunk (text) {
-  const subjects = []
-  const regex = /<([^<\n][^>\n]*)>/g
-  for (;;) {
-    const match = regex.exec(text)
-    if (!match) {
-      break
-    }
-    subjects.push(match[1])
-  }
-  return subjects
+  return text
+    .split('\n')
+    .filter(isMacro)
+    .map(extractSubject)
 }
 
 function collectCode (tokens) {
