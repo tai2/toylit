@@ -33,4 +33,12 @@ console.log('elem 1')
 console.log('elem 2')
 ```
 
-It produces a JavaScript program!
+It produces a JavaScript program.
+
+```
+$ cat sample.md | toylit --exec
+elem 1
+elem 2
+```
+
+Or even execute it directly!

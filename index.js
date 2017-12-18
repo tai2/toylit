@@ -7,11 +7,16 @@ function getArgv () {
     .option('input', {
       alias: 'i',
       default: '-',
-      describe: 'input path. "-" indicates standard input'
+      describe: 'input path. "-" indicates standard input.'
     })
     .option('output', {
       alias: 'o',
-      describe: 'output path. standard output when omitted'
+      describe: 'output path. standard output when omitted.'
+    })
+    .option('exec', {
+      alias: 'e',
+      boolean: true,
+      describe: 'execute program.'
     }).argv
 }
 
@@ -44,8 +49,12 @@ async function main () {
 
   const code = compile(text)
 
-  const output = getOutput(argv)
-  output.write(code)
+  if (argv.exec) {
+    eval(code) // eslint-disable-line no-eval
+  } else {
+    const output = getOutput(argv)
+    output.write(code)
+  }
 }
 
 main()
