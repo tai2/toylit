@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "markdown-based literate programing processor",
   "main": "index.js",
+  "bin": "bin/toylit",
   "scripts": {
     "test": "ava",
     "lint": "standard '**/*.js'",
