@@ -20,6 +20,11 @@ class StringWritable extends Writable {
 function getArgv () {
   return require('yargs')
     .usage('Usage: $0 [-i filename] [-o filename]')
+    .option('debug', {
+      alias: 'd',
+      boolean: true,
+      describe: 'debug mode.'
+    })
     .option('output', {
       alias: 'o',
       describe: 'output path. standard output when omitted.'
@@ -54,9 +59,9 @@ function readInput (stream) {
   })
 }
 
-async function runCompile (input, output) {
+async function runCompile (input, output, argv) {
   const text = await readInput(input)
-  const code = compile(text)
+  const code = compile(text, { debug: argv.debug })
   output.write(code)
 }
 
@@ -66,11 +71,11 @@ async function main () {
   const output = getOutput(argv)
 
   if (argv._.length === 0) {
-    await runCompile(process.stdin, output)
+    await runCompile(process.stdin, output, argv)
   } else {
     for (const filename of argv._) {
       const input = fs.createReadStream(filename)
-      await runCompile(input, output)
+      await runCompile(input, output, argv)
     }
   }
 

@@ -60,16 +60,26 @@ function concatCode (chunks) {
 
   return subjects.reduce((acc, subject) => {
     if (!chunks.codeTable[subject]) {
-      throw `Undefined subject: ${subject}`
+      throw new Error(`Undefined subject: ${subject}`)
     }
     const code = chunks.codeTable[subject].join('\n')
     return acc + code + '\n'
   }, '')
 }
 
-function compile (text) {
+function compile (text, options = {}) {
   const tokens = marked.lexer(text)
+  if (options.debug) {
+    console.error('---- begin tokens ----')
+    console.error(tokens)
+    console.error('---- end tokens ----')
+  }
   const chunks = collectCode(tokens)
+  if (options.debug) {
+    console.error('---- begin chunks ----')
+    console.error(chunks)
+    console.error('---- end chunks ----')
+  }
   return concatCode(chunks)
 }
 
