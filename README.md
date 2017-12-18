@@ -1,28 +1,29 @@
 Here is a markdown text: `sample.md`
 
-```markdown
-# Sample document
+    # Sample document
 
-## <<Structure>>
+    ## &* Structure
 
-```javascript
-<Element 1>
-<Element 2>
-```
+    ```javascript
+    & Element 1
+    & Element 2
+    ```
 
-## <Element 1>
+    ## & Element 1
 
-```javascript
-console.log('elem 1')
-```
+    This is a code chunk.
 
-## <Element 2>
+    ```javascript
+    console.log('elem 1')
+    ```
 
-```javascript
-console.log('elem 2')
-```
+    ## & Element 2
 
-```
+    And another one.
+
+    ```javascript
+    console.log('elem 2')
+    ```
 
 And run the command.
 
