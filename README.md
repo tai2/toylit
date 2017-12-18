@@ -28,7 +28,7 @@ Here is a markdown text: `sample.md`
 And run the command.
 
 ```
-$ cat sample.md | toylit
+$ toylit sample.md
 console.log('elem 1')
 console.log('elem 2')
 ```
@@ -36,7 +36,7 @@ console.log('elem 2')
 It produces a JavaScript program.
 
 ```
-$ cat sample.md | toylit --exec
+$ toylit --exec sample.md
 elem 1
 elem 2
 ```

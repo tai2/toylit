@@ -1,14 +1,25 @@
 const fs = require('fs')
+const { Writable } = require('stream')
 const compile = require('./compile')
+
+class StringWritable extends Writable {
+  constructor () {
+    super()
+    this.output = ''
+  }
+  _write (chunk, encoding, callback) {
+    const str = encoding === 'buffer' ? chunk.toString('utf8') : chunk
+    this.output += str
+    callback()
+  }
+  toString () {
+    return this.output
+  }
+}
 
 function getArgv () {
   return require('yargs')
     .usage('Usage: $0 [-i filename] [-o filename]')
-    .option('input', {
-      alias: 'i',
-      default: '-',
-      describe: 'input path. "-" indicates standard input.'
-    })
     .option('output', {
       alias: 'o',
       describe: 'output path. standard output when omitted.'
@@ -20,12 +31,14 @@ function getArgv () {
     }).argv
 }
 
-function getInput (argv) {
-  return argv.input === '-' ? process.stdin : fs.createReadStream(argv.input)
-}
-
 function getOutput (argv) {
-  return argv.output ? fs.createWriteStream(argv.output) : process.stdout
+  if (argv.exec) {
+    return new StringWritable()
+  } else if (argv.output) {
+    return fs.createWriteStream(argv.output)
+  } else {
+    return process.stdout
+  }
 }
 
 function readInput (stream) {
@@ -41,19 +54,28 @@ function readInput (stream) {
   })
 }
 
+async function runCompile (input, output) {
+  const text = await readInput(input)
+  const code = compile(text)
+  output.write(code)
+}
+
 async function main () {
   const argv = getArgv()
 
-  const input = getInput(argv)
-  const text = await readInput(input)
+  const output = getOutput(argv)
 
-  const code = compile(text)
+  if (argv._.length === 0) {
+    await runCompile(process.stdin, output)
+  } else {
+    for (const filename of argv._) {
+      const input = fs.createReadStream(filename)
+      await runCompile(input, output)
+    }
+  }
 
   if (argv.exec) {
-    eval(code) // eslint-disable-line no-eval
-  } else {
-    const output = getOutput(argv)
-    output.write(code)
+    eval(output.toString()) // eslint-disable-line no-eval
   }
 }
 
